@@ -20,3 +20,5 @@ app.use('/api/organisations', orgRouter)
 app.listen(port, () => {
     console.log("App is running on port: " + port)
 })
+
+module.exports = app
