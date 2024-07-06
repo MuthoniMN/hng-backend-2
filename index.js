@@ -3,6 +3,7 @@ const authRouter = require('./routes/auth')
 const userRouter = require('./routes/user')
 const orgRouter = require('./routes/org')
 const cors = require('cors')
+const verifyToken = require('./middleware/auth')
 const app = express()
 
 app.use(cors())
@@ -11,6 +12,9 @@ require('dotenv').config({ path: './.env' })
 const port = process.env.PORT
 
 app.use(express.json())
+
+// middleware
+app.all('/api/*', verifyToken)
 
 // routers
 app.use('/auth', authRouter)
