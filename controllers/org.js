@@ -3,6 +3,7 @@ const { Organisation } = require('../utils/validate')
 const { v4: uuidv4 } = require('uuid')
 
 const getUserOrgs = (req, res) => {
+    const { userId } = req
     try {
         const orgs = prisma.organisation.findMany({ 
             where: {
@@ -30,10 +31,12 @@ const getUserOrgs = (req, res) => {
 }
 
 const getOrg = (req, res) => {
+    const { userId } = req
     try {
         const org = prisma.organisation.findUniqueOrThrow({ 
             where: {
-                orgId: id
+                orgId: id,
+                users: userId
             }
          })
 
@@ -100,6 +103,7 @@ const addUserToOrg = async (req, res) => {
 }
 
 const addOrg = async (req, res) => {
+    const { userId } = req
     const data = req.body
 
     // validate fields

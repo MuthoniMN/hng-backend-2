@@ -1,6 +1,7 @@
 const prisma = require("../client")
 
 const getUser = async (req, res) => {
+    const { userId } = req.params
     try {
         const user = await prisma.user.findUniqueOrThrow({
             where: {
@@ -29,4 +30,8 @@ const getUser = async (req, res) => {
             "statusCode": 404
         })
     }
+}
+
+module.exports = {
+    getUser
 }
