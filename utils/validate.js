@@ -1,12 +1,12 @@
 const { z } = require('zod')
 
 const User = z.object({
-    firstname: z.string({
+    firstName: z.string({
         required_error: "First name is required"
     }).min(3, {
         message: "Please enter a valid first name"
     }),
-    lastname: z.string({
+    lastName: z.string({
         required_error: "Last name is required"
     }).min(3, {
         message: "Please enter a valid last name"
@@ -30,14 +30,18 @@ const User = z.object({
     })
 })
 
-const Org = z.object({
-    name: z.string({
-        message: "Organization name is required"
+const LoginUser = z.object({
+    email: z.string({
+        required_error: "Email is required"
+    }).email({
+        message: "Invalid email address"
     }),
-    description: z.string()
+    password: z.string({
+        required_error: "Password is required"
+    })
 })
 
 module.exports = {
     User,
-    Org
+    LoginUser
 }
