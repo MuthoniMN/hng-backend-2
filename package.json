@@ -4,7 +4,9 @@
   "description": "An API that manages users and their organizations",
   "main": "index.js",
   "scripts": {
-    "test": "jest tests/auth.spec.js"
+    "test": "jest tests/auth.spec.js",
+    "postinstall": "prisma generate",
+    "build": "prisma generate && npm run build"
   },
   "author": "Michelle Ndiangui",
   "license": "ISC",
