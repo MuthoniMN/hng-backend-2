@@ -41,7 +41,15 @@ const LoginUser = z.object({
     })
 })
 
+const Organisation = z.object({
+    name: z.string({
+        required_error: "Organization name is required"
+    }),
+    description: z.string().optional()
+})
+
 module.exports = {
     User,
-    LoginUser
+    LoginUser,
+    Organisation
 }
