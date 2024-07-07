@@ -2,20 +2,23 @@ const prisma = require('../client')
 const { Organisation } = require('../utils/validate')
 const { v4: uuidv4 } = require('uuid')
 
-const getUserOrgs = (req, res) => {
+const getUserOrgs = async (req, res) => {
     const { userId } = req
     try {
-        const orgs = prisma.organisation.findMany({ 
+        const user = await prisma.user.findUnique({
             where: {
-                users: userId
+                userId: userId
+            },
+            include: {
+                organisations: true
             }
-         })
-
+        })
+        console.log(user)
         return res.json({
             status: "success",
             message: "Organizations successully found!",
             data: {
-              organisations: orgs
+              organisations: user.organisations
             }
         })
     } catch (error) {
@@ -30,21 +33,27 @@ const getUserOrgs = (req, res) => {
     }
 }
 
-const getOrg = (req, res) => {
+const getOrg = async (req, res) => {
     const { userId } = req
+    const { orgId } = req.params
     try {
-        const org = prisma.organisation.findUniqueOrThrow({ 
+        const user = await prisma.user.findUnique({
             where: {
-                orgId: id,
-                users: userId
+                userId: userId,
+                organisations: {
+                    orgId: orgId
+                }
+            },
+            include: {
+                organisations: true
             }
-         })
+        })
 
          return res.status(200).json({
             status: "success",
             message: "Organization successully found!",
             data: {
-              ...org
+              ...user.organisations[0]
             }
         })
         
@@ -70,14 +79,9 @@ const addUserToOrg = async (req, res) => {
             },
             data: {
                 organisations: {
-                    update: {
-                        where: {
-                            orgId: orgId,
-                        },
-                        data: {
-                            user: userId
+                        connect: {
+                            orgId: orgId
                         }
-                    }
                 }
             },
             include: {
@@ -144,11 +148,11 @@ const addOrg = async (req, res) => {
             }
         })
 
-        const org = user.organisations.find(org => orgId == org_id)
+        const org = user.organisations.find(org => org.orgId == org_id)
 
         return res.json({
             status: "success",
-            message: "Organizations successully found!",
+            message: "Organizations successully added!",
             data: {
               ...org
             }
