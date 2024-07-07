@@ -110,7 +110,7 @@ const userReg = async (req, res) => {
     }
 }
 
-const userLogin = (req, res) => {
+const userLogin = async (req, res) => {
     const data = req.body
     // validate data
     const validationResult = LoginUser.safeParse(data)
@@ -129,11 +129,7 @@ const userLogin = (req, res) => {
     }
     try {
         // fetch for user with email
-        const user = prisma.user.find({ email: data.email })
-
-        if(!user){
-            throw new Error("User not found!")
-        }
+        const user = await prisma.user.findUniqueOrThrow({ where: { email: data.email } })
 
         // compare password
         if(!bcrypt.compare(data.password, user.password)){
