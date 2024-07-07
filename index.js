@@ -14,7 +14,7 @@ const port = process.env.PORT
 app.use(express.json())
 
 // middleware
-app.all('/api/*', verifyToken)
+app.use('/api/*', verifyToken)
 
 // routers
 app.use('/auth', authRouter)
