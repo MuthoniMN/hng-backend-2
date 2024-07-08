@@ -29,3 +29,9 @@ model Organisation {
   description String
   users User[]
 }
+model OrganisationUser {
+  userId String
+  user @relation(field [userId], references [userId])
+  orgId String
+  organisation @relation(field [orgId], references [orgId])
+}
