@@ -132,14 +132,15 @@ const userLogin = async (req, res) => {
         const user = await prisma.user.findUniqueOrThrow({ where: { email: data.email } })
 
         // compare password
-        if(!bcrypt.compare(data.password, user.password)){
+    const comparePwd = await bcrypt.compare(data.password, user.password)    
+        if(!comparePwd){
             throw new Error("Invalid password!")
         }
 
         // generate jwt
         const token = generateToken(user.userId)
 
-        return res.status(201).json({
+        return res.status(200).json({
             status: "success",
             message: "Login successful",
             data: {
