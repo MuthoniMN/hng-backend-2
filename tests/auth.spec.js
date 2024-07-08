@@ -41,6 +41,7 @@ describe('POST /auth/register', () => {
 }
             ]
         })
+            })
 
         test('creating a user with no email', async () => {
         const response = await request(app)
@@ -138,17 +139,13 @@ describe('POST /auth/register', () => {
         expect(response.body.data.user).toHaveProperty('email')
         expect(response.body.data.user).toHaveProperty('phone')
 
-        const user = prismaMock.user.findUnique({
-            where: { email: 'ndianguimichelle@gmail.com' },
-            include: { organization: true }
-          });
-          expect(user).not.toBeNull();
-      
-          const organization = user.organization;
-          expect(organization).not.toBeNull();
-          expect(organization.userId).toBe(user.id);
+        const res2 = await request(app).get('/api/organisations').set('Authorization', `Bearer ${response.body.data.accessToken}`)
 
-    })
+        expect(res2.statusCode).toBe(200)
+        expect(res2.body.data).toHaveProperty('organisations')
+        expec(res2.body.data.organisations).toHaveLength(1)
+        expect(res2.body.data.organisations[0].name).toEqual(`${resp.body.data.user.firstName}'s Organisation`)
+    }) 
 
     test('checking for a duplicate email', async () => {
         const response = await request(app)
@@ -170,5 +167,6 @@ describe('POST /auth/register', () => {
                 }
             ]
         })
-    })
+
+})
 })
