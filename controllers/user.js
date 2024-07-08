@@ -3,6 +3,8 @@ const prisma = require("../client")
 const getUser = async (req, res) => {
     const { userId } = req.params
     const currentUser = req.userId;
+
+    await prisma.$connect()
     try {
         const user = await prisma.user.findUniqueOrThrow({
             where: {
@@ -22,7 +24,7 @@ const getUser = async (req, res) => {
                     organisations: true
                 }
             })
-            if(!current.organisations.filter(org => user.organisations.include(org.orgId))){
+            if(!current.organisations.filter(org => user.organisations.include(org))){
                 throw new Error("You are not allowed to view this user!");
             }}
         
