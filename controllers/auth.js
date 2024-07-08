@@ -75,8 +75,8 @@ const userReg = async (req, res) => {
                 organisations: {
                     create: {
                         orgId: org_id,
-                        name: `${data.firstName}'s Organization`,
-                        description: `Welcome to ${data.firstName}'s Organization`
+                        name: `${data.firstName}'s Organisation`,
+                        description: `Welcome to ${data.firstName}'s Organisation`
                     }
                 }
             }
