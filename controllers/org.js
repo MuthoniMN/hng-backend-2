@@ -139,10 +139,11 @@ const addOrg = async (req, res) => {
             },
             data: {
                 organisations: {
+                    organisation: { 
                     create: [{
                         orgId: org_id,
                         ...data
-                    }]
+                    }]}
                 }
             },
             include: {

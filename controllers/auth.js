@@ -73,11 +73,12 @@ const userReg = async (req, res) => {
                 password: hashedPwd,
                 userId: uuid,
                 organisations: {
+                    organisation: {
                     create:[  {
                         orgId: org_id,
                         name: `${data.firstName}'s Organisation`,
                         description: `Welcome to ${data.firstName}'s Organisation`
-                    } ]
+                    } ]}
                 }
             }
         })
