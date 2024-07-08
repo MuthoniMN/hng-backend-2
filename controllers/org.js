@@ -4,21 +4,26 @@ const { v4: uuidv4 } = require('uuid')
 
 const getUserOrgs = async (req, res) => {
     const { userId } = req
+    await prisma.$connect()
+        
     try {
-        const user = await prisma.user.findUnique({
+        const orgs = await prisma.organisationUser.findMany({
             where: {
                 userId: userId
             },
             include: {
-                organisations: true
+                organisation: true,
+                userId: false,
+                user: false,
+                orgId: false
             }
         })
-        console.log(user)
-        return res.json({
+        
+        return res.status(200).json({
             status: "success",
-            message: "Organizations successully found!",
+            message: "Organisations successully found!",
             data: {
-              organisations: user.organisations
+              organisations: orgs
             }
         })
     } catch (error) {
@@ -36,24 +41,26 @@ const getUserOrgs = async (req, res) => {
 const getOrg = async (req, res) => {
     const { userId } = req
     const { orgId } = req.params
+    await prisma.$connect()
+            
     try {
-        const user = await prisma.user.findUnique({
+        const org = await prisma.organisationUser.findUniqueOrThrow({
             where: {
                 userId: userId,
-                organisations: {
-                    orgId: orgId
-                }
+                orgId: orgId
             },
             include: {
-                organisations: true
+                organisation: true,
+                userId: false,
+                user: false,
+                orgId: false
             }
         })
-
          return res.status(200).json({
             status: "success",
             message: "Organization successully found!",
             data: {
-              ...user.organisations[0]
+              ...org
             }
         })
         
@@ -73,21 +80,14 @@ const addUserToOrg = async (req, res) => {
     const { userId } = req.body
     const { orgId } = req.params
     try {
-        const user = await prisma.user.update({
-            where: {
-                userId: userId
-            },
+        await prisma.$connect()
+                
+        await prisma.organisationUser.create({
             data: {
-                organisations: {
-                        connect: {
-                            orgId: orgId
-                        }
-                }
-            },
-            include: {
-                organisations: true
+                userId: userId,
+                orgId: orgId
             }
-        })
+            })
 
         return res.json({
             status: "success",
@@ -127,6 +127,8 @@ const addOrg = async (req, res) => {
     }
 
     try {
+        await prisma.$connect()
+        
         // generate uuid
         const org_id = uuidv4()
 
