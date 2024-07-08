@@ -1,33 +1,83 @@
 const request = require('supertest')
 const app = require('../app')
-const { prismaMock } = require('../singleton')
 
 describe('POST /auth/register', () => {
-    test('creating a user with no request body', async () => {
+    test('creating a user with no first name', async () => {
         const response = await request(app)
             .post('/auth/register')
+            .send({
+                lastName: 'Ndiangui',
+                email: 'ztejd@example.com',
+                phone: '0712345678',
+                password: '1a2b3c'
+            })
         expect(response.statusCode).toBe(422)
         expect(response.body).toEqual({
             "errors": [
                 {
                     "field": "firstName",
                     "message": "First name is required"
-                },
+                }                
+            ]
+        })
+    })
+
+
+        test('creating a user with no last name', async () => {
+        const response = await request(app)
+            .post('/auth/register')
+            .send({
+                firstName: 'Michelle',
+                email: 'ztejd@example.com',
+                phone: '0712345678',
+                password: '1a2b3c'
+            })
+        expect(response.statusCode).toBe(422)
+        expect(response.body).toEqual({
+            "errors": [ 
                 {
                     "field": "lastName",
                     "message": "Last name is required"
-                },
-                {
-                    "field": "password",
-                    "message": "Password is required"
-                },
-                {
-                    "field": "phone",
-                    "message": "Phone number is required"
-                },
+}
+            ]
+        })
+
+        test('creating a user with no email', async () => {
+        const response = await request(app)
+            .post('/auth/register')
+            .send({
+                firstName: 'Michelle',
+                lastName: 'Ndiangui',
+                phone: '0712345678',
+                password: '1a2b3c'
+            })
+        expect(response.statusCode).toBe(422)
+        expect(response.body).toEqual({
+            "errors": [
                 {
                     "field": "email",
                     "message": "Email is required"
+                }
+            ]
+        })
+    })
+
+
+        test('creating a user with no password', async () => {
+        const response = await request(app)
+            .post('/auth/register')
+            .send({
+                firstName: 'Michelle',
+                lastName: 'Ndiangui',
+                email: 'ztejd@example.com',
+                phone: '0712345678'
+            })
+        expect(response.statusCode).toBe(422)
+        expect(response.body).toEqual({
+            "errors": [ 
+                {
+                    "field": "password",
+                    "message": "Password is required"
                 }
             ]
         })
@@ -69,7 +119,7 @@ describe('POST /auth/register', () => {
             ]
         })
     })
-
+    
     test('successully creating a user and their organization', async () => {
         const response = await request(app)
             .post('/auth/register')
