@@ -67,10 +67,10 @@ const getOrg = async (req, res) => {
     } catch (error) {
         console.error(error)
 
-        return res.status(404).json({
+        return res.status(400).json({
             status: "Bad Request",
             message: "Client error",
-            statusCode: 404
+            statusCode: 400
         })
         
     }

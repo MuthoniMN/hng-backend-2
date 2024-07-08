@@ -8,7 +8,7 @@ function verifyToken(req, res, next) {
     if (!token) return res.status(401).json({ 
         status: "Bad Request",
         message: 'Access denied',
-        code: 401
+        statusCode: 401
     });
     try {
         const decoded = validateToken(token)
@@ -18,7 +18,7 @@ function verifyToken(req, res, next) {
         res.status(401).json({ 
             status: "Bad Request",
             message: 'Invalid token',
-            code: 401
+            statusCode: 401
         });
     }
  };
