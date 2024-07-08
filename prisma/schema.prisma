@@ -31,9 +31,9 @@ model Organisation {
 }
 model OrganisationUser {
   userId String
-  user @relation(fields: [userId], references: [userId])
+  user User @relation(fields: [userId], references: [userId])
   orgId String
-  organisation @relation(fields: [orgId], references: [orgId])
+  organisation Organisation @relation(fields: [orgId], references: [orgId])
 
  @@id([userId, orgId])
 
