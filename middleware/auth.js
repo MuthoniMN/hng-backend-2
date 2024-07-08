@@ -3,14 +3,15 @@ const { validateToken } = require('../utils/jwt')
 
 function verifyToken(req, res, next) {
     const payload = req.header('Authorization');
-    const [str, token] = payload.split(" ")
 
-    if (!token) return res.status(401).json({ 
+    if (!payload) return res.status(401).json({ 
         status: "Bad Request",
         message: 'Access denied',
         statusCode: 401
     });
     try {
+            const [str, token] = payload.split(" ")
+            
         const decoded = validateToken(token)
         req.userId = decoded.userId;
         next();
