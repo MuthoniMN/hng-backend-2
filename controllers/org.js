@@ -78,7 +78,7 @@ const getOrg = async (req, res) => {
 
 const addUserToOrg = async (req, res) => {
     const { userId } = req.body
-    const { orgId } = req.params
+    const orgId = req.params.orgId
     try {
         await prisma.$connect()
                 
