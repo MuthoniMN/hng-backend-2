@@ -78,7 +78,7 @@ const getOrg = async (req, res) => {
 
 const addUserToOrg = async (req, res) => {
     const { userId } = req.body
-    const orgId = req.params.orgId.toString()
+    const orgId = req.params.orgId
     
     try {
         await prisma.$connect()
@@ -89,10 +89,10 @@ const addUserToOrg = async (req, res) => {
             }, 
             data: {
                 organisations: {
-                    connect: {
+                    connect: [{
      
                         orgId: orgId
-                    }
+                    }]
                 }
             }
             })
