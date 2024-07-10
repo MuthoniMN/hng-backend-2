@@ -44,7 +44,7 @@ const getOrg = async (req, res) => {
     await prisma.$connect()
             
     try {
-        const org = await prisma.organisationUser.findUniqueOrThrow({
+        const org = await prisma.organisationUser.findFirst({
             where: {
                 userId: userId,
                 orgId: orgId
@@ -161,7 +161,7 @@ const addOrg = async (req, res) => {
             status: "success",
             message: "Organizations successully added!",
             data: {
-              ...org.organisation
+              ...org
             }
         })
         
