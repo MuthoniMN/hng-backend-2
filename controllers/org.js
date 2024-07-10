@@ -23,7 +23,7 @@ const getUserOrgs = async (req, res) => {
             status: "success",
             message: "Organisations successully found!",
             data: {
-              organisations: orgs
+              organisations: orgs.map(org => org.organisation)
             }
         })
     } catch (error) {
@@ -60,7 +60,7 @@ const getOrg = async (req, res) => {
             status: "success",
             message: "Organization successully found!",
             data: {
-              ...org
+              ...org.organisation
             }
         })
         
