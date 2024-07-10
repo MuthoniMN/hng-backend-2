@@ -147,9 +147,6 @@ const addOrg = async (req, res) => {
                     }
 
                     }}, 
-                    include: {
-                        organisation: true
-                    }
                 }
             },
             include: {
@@ -157,7 +154,8 @@ const addOrg = async (req, res) => {
             }
         })
 
-        const org = user.organisations.find(org => org.orgId == org_id)
+        const org = await prisma.organisation.findUnique({
+            where: { orgId: org_id }})
 
         return res.json({
             status: "success",

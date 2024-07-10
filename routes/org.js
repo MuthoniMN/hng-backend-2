@@ -4,7 +4,7 @@ const orgRouter = express.Router();
 
 orgRouter.get('/', getUserOrgs)
 orgRouter.post('/', addOrg)
-orgRouter.get('/:orgID', getOrg)
+orgRouter.get('/:orgId', getOrg)
 orgRouter.post('/:orgId/users', addUserToOrg)
 
 module.exports = orgRouter;
