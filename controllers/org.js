@@ -144,7 +144,11 @@ const addOrg = async (req, res) => {
                     create: {
                         orgId: org_id,
                         ...data
-                    }}}
+                    },
+                    include: {
+                        organisation: true
+                    }
+                    }}
                 }
             },
             include: {
@@ -158,7 +162,7 @@ const addOrg = async (req, res) => {
             status: "success",
             message: "Organizations successully added!",
             data: {
-              ...org
+              ...org.organisation
             }
         })
         
