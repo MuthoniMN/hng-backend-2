@@ -83,11 +83,20 @@ const addUserToOrg = async (req, res) => {
     try {
         await prisma.$connect()
                 
-        await prisma.organisationUser.create({
+        await prisma.user.update({
+            where: {
+                userId: userId
+            },
             data: {
-                userId: userId,
-                orgId: orgId
-            }})
+                organisations: {
+                    create: {
+                        connect: {
+                            orgId: orgId
+                        }
+                    }
+                }
+            }
+        })
         
 
         return res.json({
