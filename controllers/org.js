@@ -90,8 +90,8 @@ const addUserToOrg = async (req, res) => {
             data: {
                 organisations: {
                 connect: {
-                            orgId: orgId
-            TT
+                      orgId: orgId
+            
              }
                     }
             }
