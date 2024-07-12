@@ -1,6 +1,6 @@
 const express = require('express')
 const authRouter = require('./routes/auth')
-const userRouter = require('./routes/user')
+const userRouter = require('./routes/users')
 const orgRouter = require('./routes/org')
 const cors = require('cors')
 const verifyToken = require('./middleware/auth')
