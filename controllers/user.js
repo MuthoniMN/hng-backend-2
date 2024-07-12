@@ -15,7 +15,7 @@ const getUser = async (req, res) => {
                 }
         })
 
-        if(userId !== currentUser){
+        if(userId != currentUser){
             const current = await prisma.user.findUnique({
                 where: {
                     userId: currentUser
