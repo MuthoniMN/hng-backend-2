@@ -1,6 +1,6 @@
 const express = require('express')
 const authRouter = require('./routes/auth')
-const userRouter = require('./routes/users')
+const userRouter = require('./routes/user')
 const orgRouter = require('./routes/org')
 const cors = require('cors')
 const verifyToken = require('./middleware/auth')
@@ -18,7 +18,7 @@ app.use('/api/*', verifyToken)
 
 // routers
 app.use('/auth', authRouter)
-app.use('/api/user', userRouter)
+app.use('/api/users', userRouter)
 app.use('/api/organisations', orgRouter)
 
 app.listen(port, () => {
